@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Festival Grammar Challenge – English 8 Unit 5</title>
+<style>
+:root{--blue:#1d4ed8;--purple:#6d28d9;--orange:#ea580c;--gold:#fbbf24;--ink:#1e1b4b;--bg:#fff8eb;--ok:#15803d;--no:#c2410c}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS","Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#fde68a 0,var(--bg) 220px);min-height:100vh}
+.lanterns{height:46px;display:flex;justify-content:space-around;font-size:30px;overflow:hidden}
+.lanterns span{animation:sw 3s ease-in-out infinite alternate;transform-origin:top}
+.lanterns span:nth-child(even){animation-delay:-1.5s}
+@keyframes sw{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+.wrap{max-width:760px;margin:0 auto;padding:12px 14px 40px}
+.scr{display:none}.scr.on{display:block}
+h1{font-size:clamp(26px,6vw,40px);margin:6px 0;color:var(--purple);text-align:center;line-height:1.1}
+.sub{text-align:center;margin:0 0 14px}
+.card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:16px;margin:12px 0;box-shadow:4px 4px 0 var(--orange)}
+.hero{font-size:56px;text-align:center;letter-spacing:8px}
+label{display:block;font-weight:bold;margin:10px 0 4px}
+select,input[type=text]{width:100%;padding:10px;border:2px solid var(--ink);border-radius:10px;font-size:16px;background:#fff}
+button{font:inherit;cursor:pointer;border:2px solid var(--ink);border-radius:12px;padding:12px 16px;background:#fff;color:var(--ink);min-height:44px}
+button:focus-visible{outline:3px solid var(--blue)}
+button.pri{background:var(--orange);color:#fff;font-weight:bold}
+button:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}
+.bar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:bold}
+.prog{height:10px;background:#ddd;border-radius:9px;margin:8px 0;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));width:0;transition:width .3s}
+.q{font-size:clamp(18px,4.5vw,22px);margin:6px 0 12px;line-height:1.4}
+.tag{font-size:13px;color:var(--purple)}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;font-size:17px}
+.opt.sel{background:#dbeafe;border-color:var(--blue)}
+.opt.good{background:#dcfce7;border-color:var(--ok)}.opt.bad{background:#ffedd5;border-color:var(--no)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;min-height:48px;padding:8px;border:2px dashed #999;border-radius:12px;margin:8px 0}
+.chip{background:#ede9fe;padding:8px 12px}
+#fb{display:none;border-radius:14px;padding:12px;margin-top:12px;border:2px solid}
+#fb.ok{display:block;background:#dcfce7;border-color:var(--ok);animation:pop .4s}
+#fb.no{display:block;background:#ffedd5;border-color:var(--no);animation:shake .4s}
+@keyframes pop{50%{transform:scale(1.03)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#hintbox{display:none;background:#fef9c3;border-radius:10px;padding:8px;margin-top:8px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat div{background:#f5f3ff;border-radius:10px;padding:8px}
+.rv{border-left:6px solid var(--orange);padding:6px 10px;margin:8px 0;background:#fff7ed}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<div class="lanterns" aria-hidden="true"><span>🏮</span><span>🎋</span><span>🏮</span><span>🥁</span><span>🏮</span><span>🎋</span><span>🏮</span></div>
+<div class="wrap">
+
+<section id="menu" class="scr on">
+<div class="hero" aria-hidden="true">🏮🥁🎋</div>
+<h1>FESTIVAL GRAMMAR CHALLENGE</h1>
+<p class="sub"><b>ĐẠI CHIẾN NGỮ PHÁP UNIT 5</b><br>English 8 – Festivals in Vietnam</p>
+<div class="card">
+<label for="nm">Tên của bạn (không bắt buộc)</label><input id="nm" type="text" maxlength="30">
+<label for="mode">Chế độ chơi</label>
+<select id="mode">
+<option value="all">Tất cả chế độ (Mixed)</option>
+<option value="w">Mode 1 – Grammar Warm-up</option>
+<option value="q">Mode 2 – Festival Grammar Quest</option>
+<option value="b">Mode 3 – Sentence Builder</option>
+<option value="m">Mode 4 – Festival Master</option></select>
+<label for="num">Số câu hỏi</label>
+<select id="num"><option>10</option><option selected>15</option><option>25</option><option value="999">Tất cả</option></select>
+<label for="tm">Thời gian mỗi câu</label>
+<select id="tm"><option value="0">Không giới hạn</option><option value="30">30 giây</option><option value="45" selected>45 giây</option><option value="60">60 giây</option></select>
+<div class="row" style="margin-top:14px">
+<button class="pri" onclick="startGame()">START GAME</button>
+<button onclick="show('how')">HOW TO PLAY</button>
+<button id="snd" onclick="toggleSound()">🔊 Âm thanh: Bật</button></div>
+</div></section>
+
+<section id="how" class="scr"><h1>HOW TO PLAY</h1><div class="card">
+<p>• Đọc câu hỏi, chọn đáp án (hoặc xếp các từ thành câu đúng) rồi bấm <b>Xác nhận</b>.</p>
+<p>• Điểm: Dễ 10 – Trung bình 20 – Khó 30. Dùng <b>Gợi ý</b> thì chỉ nhận 50% điểm. Sai hoặc hết giờ: 0 điểm.</p>
+<p>• Đúng liên tiếp 5 câu: +20 điểm. Đúng liên tiếp 10 câu: +50 điểm. Hoàn thành tất cả câu: +30 điểm.</p>
+<p>• Sau mỗi câu có đáp án và giải thích; bấm <b>Câu tiếp theo</b> để đi tiếp. Nút <b>Bỏ qua</b> không được điểm.</p>
+<p>• Cuối game bạn có thể xem lại câu sai và luyện lại.</p>
+<button class="pri" onclick="show('menu')">Quay lại menu</button></div></section>
+
+<section id="play" class="scr">
+<div class="bar"><span>🏮 Unit 5</span><span id="pn">1/1</span><span>⭐ <b id="ps">0</b></span><span id="pt">⏱</span></div>
+<div class="prog"><i id="pb"></i></div>
+<div class="card"><div class="tag" id="ptag"></div><div class="q" id="pq"></div>
+<div id="pa"></div>
+<div id="hintbox"></div>
+<div id="fb" role="status"></div>
+<div class="row" style="margin-top:12px">
+<button class="pri" id="bOk" onclick="submit()">Xác nhận</button>
+<button id="bHint" onclick="hint()">💡 Gợi ý</button>
+<button id="bSkip" onclick="skip()">Bỏ qua</button>
+<button id="bNext" class="pri" style="display:none" onclick="next()">Câu tiếp theo</button></div>
+<button style="margin-top:10px" onclick="quit()">Về menu</button></div></section>
+
+<section id="end" class="scr"><h1 id="eh"></h1><div class="card">
+<p id="en" style="text-align:center;font-size:20px"></p><p id="em" style="text-align:center"></p>
+<div class="stat" id="es"></div>
+<div class="row" style="margin-top:12px">
+<button class="pri" onclick="startGame()">PLAY AGAIN</button>
+<button onclick="review('wrong')">REVIEW WRONG ANSWERS</button>
+<button onclick="review('all')">VIEW ANSWERS</button>
+<button onclick="show('menu')">BACK TO MENU</button></div></div></section>
+
+<section id="rev" class="scr"><h1 id="rh">REVIEW</h1><div id="rl"></div>
+<div class="row"><button class="pri" id="rp" onclick="practiceWrong()">Luyện lại câu sai</button><button onclick="show('end')">Quay lại kết quả</button></div></section>
+</div>
+<script>
+"use strict";
+/* Q: [kind, level(1-3), topic, question, options, answer, explanation(VI), hint(EN)]
+   kind: w=Warm-up, q=Conjunction Quest, b=Sentence Builder (options = word chips), m=Master (error/reading) */
+const TF=["TRUE","FALSE"],SCC=["S","C","CC"],CO=["and","or","but","so"];
+const Q=[
+["w",1,"Simple/Compound/Complex","Classify: <i>My bike is broken, so I have to walk to school.</i>",SCC,"C","2 mệnh đề độc lập nối bằng liên từ kết hợp <b>so</b> → câu ghép.","Two independent clauses + a coordinating conjunction."],
+["w",1,"Simple sentence","Classify: <i>My mother bought me a new pair of shoes and made me a cake on my birthday.</i>",SCC,"S","Chỉ có một chủ ngữ (my mother) với hai động từ nối bằng and → câu đơn.","One subject, two verbs joined by and."],
+["w",1,"Compound sentence","Classify: <i>Peter had an accident last week, but now he is fine.</i>",SCC,"C","Hai mệnh đề độc lập nối bằng <b>but</b> → câu ghép.","Find the coordinating conjunction."],
+["w",1,"Complex sentence","Classify: <i>When I came home, my sister was watching TV.</i>",SCC,"CC","“When I came home” là mệnh đề phụ thuộc → câu phức.","Find the independent and the dependent clause."],
+["w",1,"Complex sentence","Classify: <i>If you want to succeed in life, you have to work harder.</i>",SCC,"CC","Mệnh đề If là mệnh đề phụ thuộc → câu phức.","Is there a subordinating conjunction?"],
+["w",2,"Complex sentence","Classify: <i>My grandfather and my grandmother first met each other when they were very young.</i>",SCC,"CC","Có mệnh đề phụ thuộc “when they were very young” → câu phức.","Look at the part after <i>when</i>."],
+["w",1,"Simple sentence","Classify: <i>There are several parks around the city.</i>",SCC,"S","Chỉ một mệnh đề → câu đơn.","How many clauses are there?"],
+["w",2,"Compound sentence","Classify: <i>My sister fancies rock music and she always wants to go to a rock concert.</i>",SCC,"C","Sau <b>and</b> có thêm chủ ngữ “she” → hai mệnh đề độc lập → câu ghép.","Count the subjects."],
+["w",1,"Compound sentence","TRUE or FALSE: A compound sentence has two or more independent clauses joined by a coordinating conjunction.",TF,"TRUE","Đúng: câu ghép = các mệnh đề độc lập + liên từ kết hợp (and, or, but, so).","Think about the definition."],
+["w",1,"Simple sentence","TRUE or FALSE: <i>Mary and Tom are playing tennis.</i> is a compound sentence.",TF,"FALSE","Đây là câu đơn: chủ ngữ gồm 2 danh từ nối bằng and, chỉ có một động từ.","How many verbs are there?"],
+["w",2,"Comma rule","TRUE or FALSE: When the dependent clause comes before the independent clause, we put a comma between them.",TF,"TRUE","Mệnh đề phụ thuộc đứng trước thì phải có dấu phẩy.","Compare: <i>Although she tried, she failed.</i>"],
+["w",2,"Comma rule","TRUE or FALSE: In a compound sentence, we need a comma before <b>so</b>.",TF,"TRUE","Theo tài liệu, trước <b>so</b> cần dấu phẩy; với and/or/but thì có thể có hoặc không.","Which conjunction always needs a comma?"],
+["w",2,"Subordinating conj.","TRUE or FALSE: <i>Unless</i> means “nếu” (if).",TF,"FALSE","<b>Unless</b> = trừ phi (if … not).","Unless = if … not."],
+["q",1,"Coordinating: so","My father is an engineer, ____ he often has to work away from home.",CO,"so","Kết quả: là kỹ sư nên thường phải đi làm xa.","The second clause shows a result."],
+["q",1,"Coordinating: or","Do you want to join us ____ do you want to leave now?",CO,"or","Đưa ra sự lựa chọn → <b>or</b>.","There is a choice."],
+["q",1,"Coordinating: but","I love cats, ____ my mother doesn't allow me to have one.",CO,"but","Hai ý đối lập → <b>but</b>.","Look for two ideas that contrast."],
+["q",1,"Coordinating: so","This year the Mid-Autumn Festival falls on Sunday, ____ I can go home and reunite with my family.",CO,"so","Kết quả của việc lễ hội rơi vào Chủ nhật → <b>so</b>.","The second clause shows a result."],
+["q",1,"Coordinating: but","Mary looks small and thin, ____ she owns great strength.",CO,"but","Nhỏ gầy nhưng rất khỏe: đối lập → <b>but</b>.","Look for two ideas that contrast."],
+["q",1,"Coordinating: so","I broke my glasses yesterday, ____ I didn't see things clearly.",CO,"so","Kính vỡ nên nhìn không rõ: kết quả → <b>so</b>.","Cause and result."],
+["q",1,"Coordinating: and","There are many festivals in Vietnam ____ many of them are held in the spring.",CO,"and","Bổ sung thông tin → <b>and</b>.","The second clause adds information."],
+["q",2,"Coordinating","Which conjunction is used to show a choice?",CO,"or","<b>or</b> dùng khi có sự lựa chọn.","Option A or option B."],
+["q",2,"Subordinating: if","It will be a great fortune ____ I can join the upcoming carnival.",["if","unless","although","until"],"if","Điều kiện: nếu tôi có thể tham gia → <b>if</b>.","A condition."],
+["q",2,"Subordinating: as soon as","I will call you ____ I arrive there.",["as long as","as soon as","unless","although"],"as soon as","<b>as soon as</b> = ngay khi.","Right at the moment."],
+["q",2,"Subordinating: while","At 8 pm last night, I was doing my homework ____ my sister was playing with her toys.",["when","while","unless","since"],"while","Hai hành động xảy ra song song → <b>while</b>.","Two actions at the same time."],
+["q",2,"Subordinating: unless","We won't go camping ____ the weather is fine.",["unless","if","because","once"],"unless","Không đi cắm trại trừ phi thời tiết đẹp → <b>unless</b>.","Unless = if … not."],
+["q",2,"Subordinating: in case","You should bring your raincoat ____ it rains.",["unless","in case","until","as if"],"in case","<b>in case</b> = phòng khi.","Be prepared."],
+["q",2,"Subordinating: since","They have worked at this company ____ they graduated.",["when","since","while","unless"],"since","Mốc thời gian + thì hiện tại hoàn thành → <b>since</b>.","Present perfect + starting point."],
+["q",3,"Subordinating: although","____ Mary looks thinner than me, she is much stronger than me.",["Because","Although","Unless","Once"],"Although","Hai ý đối lập → <b>although</b> (mặc dù).","Contrast again."],
+["q",3,"Subordinating: even if","I won't accept this job ____ they offer me a high salary.",["even if","as long as","as soon as","because"],"even if","<b>even if</b> = ngay cả khi.","Even in that case."],
+["b",2,"Complex sentence","Arrange the words:",["Although","she was tired,","she","continued","working."],"Although she was tired, she continued working.","Mệnh đề phụ thuộc đứng trước, có dấu phẩy.","Start with the subordinating conjunction."],
+["b",2,"Compound sentence","Arrange the words:",["I wasn't","very hungry,","but","I ate","a lot."],"I wasn't very hungry, but I ate a lot.","Hai mệnh đề đối lập nối bằng <b>, but</b>.","Contrast."],
+["b",2,"Compound sentence","Arrange the words:",["My mother","does exercise","every day,","so","she looks","very young and fit."],"My mother does exercise every day, so she looks very young and fit.","Có dấu phẩy trước <b>so</b> chỉ kết quả.","The second clause shows a result."],
+["b",3,"Complex sentence","Arrange the words:",["If","you want","to study abroad,","you should","save money","from now."],"If you want to study abroad, you should save money from now.","Mệnh đề If đứng đầu → có dấu phẩy.","Find the independent clause."],
+["m",2,"Error correction","Choose the best correction: <i>Although he was tired, but he continued working.</i>",["Delete “but”","Delete “Although” and keep “but”","Change “but” to “so”","Both A and B are acceptable"],"Both A and B are acceptable","Không dùng although và but cùng lúc: bỏ <i>but</i> (Although he was tired, he continued working) hoặc bỏ <i>Although</i> (He was tired, but he continued working).","Although and but both show contrast."],
+["m",3,"Error correction","Which correction is right? <i>Unless you visit Vietnam in autumn, you should join in this special festival.</i>",["Change Unless to If","Change you to he","Delete the comma","Change should to shouldn't"],"Change Unless to If","Ý đúng là “Nếu bạn đến VN vào mùa thu thì nên tham gia” → dùng <b>If</b>.","Unless = if … not."],
+["m",3,"Error correction","Which correction is right? <i>I love the Mid-Autumn festival. Since there are a variety of interesting activities.</i>",["Join the clauses: …festival because there are…","Change Since to Although","Delete “I love”","No correction needed"],"Join the clauses: …festival because there are…","“Since…” một mình là câu thiếu thành phần. Nối: <i>I love the Mid-Autumn festival because there are many interesting activities.</i>","A dependent clause cannot stand alone."],
+["w",1,"Vocabulary","🏛️ Từ <b>archway</b> nghĩa là gì?",["mái vòm","đèn lồng","cây tre","đô vật"],"mái vòm","archway /ˈɑːtʃweɪ/ = mái vòm.","You walk through it."],
+["w",1,"Vocabulary","🕯️ Từ <b>incense</b> nghĩa là gì?",["hương","cốm","vận may","quả dừa"],"hương","incense /ˈɪnsens/ = hương (thắp hương).","People burn it at temples."],
+["w",1,"Vocabulary","🤼 The two ____ are trying to beat each other.",["wrestlers","lanterns","invaders","bamboos"],"wrestlers","wrestler = đô vật.","They fight in a ring."],
+["w",2,"Vocabulary","🏮 Từ <b>lantern</b> nghĩa là gì?",["đèn lồng","đoàn người","giữ gìn","sự đoàn tụ"],"đèn lồng","lantern /ˈlæntən/ = đèn lồng.","You can float it on a river."],
+["w",2,"Vocabulary","People should ____ their traditional customs.",["preserve","reunite","invade","wrestle"],"preserve","preserve (v) = giữ gìn, bảo tồn. (Lưu ý: PDF ghi nhầm reunion là động từ; thực ra reunion là danh từ.)","Keep something safe."],
+["w",2,"Vocabulary","👨‍👩‍👧 Từ <b>reunion</b> nghĩa là gì?",["sự đoàn tụ","kẻ xâm lược","người anh hùng","vận may"],"sự đoàn tụ","reunion (n) = sự đoàn tụ, ví dụ: family reunion on Tet Holiday.","Family on Tet."],
+["w",2,"Vocabulary","🎉 <b>procession</b> nghĩa là gì? (Sửa lỗi PDF: không phải “đám cưới”.)",["đoàn người, đám rước","đám cưới","hương","cây tre"],"đoàn người, đám rước","procession = một đoàn người cùng đi theo hàng, như đoàn rước.","People walking in a line."],
+["m",2,"Reading: Huong Pagoda","<b>Huong Pagoda Festival.</b> Where is Huong Pagoda located?",["In My Duc District, 70 km south of Hanoi","In Kien Hai District","In Lai Son commune","70 km north of Hanoi"],"In My Duc District, 70 km south of Hanoi","Bài đọc: Huong Pagoda nằm ở huyện Mỹ Đức, cách Hà Nội 70 km về phía nam.","Read paragraph 1."],
+["m",2,"Reading: Huong Pagoda","How long does the Huong Pagoda Festival last?",["Three months, from the 1st to the 3rd lunar month","One week","Six days","Two months"],"Three months, from the 1st to the 3rd lunar month","Lễ hội kéo dài ba tháng (tháng Giêng đến tháng Ba âm lịch); ngày khai hội chính thức là mùng 6 tháng Giêng.","Look for the lunar months."],
+["m",2,"Reading: Huong Pagoda","What is believed to bring you fulfillment and great success in life?",["Climbing to the top of Huong Tich Mountain","Tasting apricot juice","Watching Zen dances","Cruising on Yen Stream"],"Climbing to the top of Huong Tich Mountain","Tin rằng leo lên đỉnh núi Hương Tích sẽ mang lại thành công.","Mountain."],
+["m",3,"Reading: Huong Pagoda","When can tourists taste the fresh flavor of apricot juice?",["At the end of the festival","At the beginning of the festival","On the 6th day only","During the Zen ceremony"],"At the end of the festival","Đầu lễ hội: hoa mơ trắng; cuối lễ hội: nước mơ tươi.","Beginning = flowers, end = juice."],
+["m",2,"Reading: Nghinh Ong","<b>Nghinh Ong Festival</b> opened in Lai Son commune, Kien Hai district. It aims to honor the solidarity of fishermen at sea ____ they fish and safeguard the country's sovereignty.",["when","because","if","in case"],"when","Nghĩa: “khi họ đánh bắt cá và bảo vệ chủ quyền” → <b>when</b>.","Two things happen at the same time."],
+["w",1,"Simple sentence","Classify: <i>I didn't expect Jim to come to the meeting yesterday.</i>",SCC,"S","Một mệnh đề duy nhất → câu đơn.","How many clauses?"],
+["w",2,"Complex sentence","Classify: <i>I didn't know his address until Mary told me.</i>",SCC,"CC","“until Mary told me” là mệnh đề phụ thuộc → câu phức.","Look for until."],
+["w",2,"Complex sentence","Classify: <i>James never eats junk food because it's bad for his health.</i>",SCC,"CC","Có <b>because</b> mở đầu mệnh đề phụ thuộc → câu phức.","Is because coordinating or subordinating?"],
+["w",2,"Complex sentence","Classify: <i>You may have a sore throat if you drink cold water.</i>",SCC,"CC","Mệnh đề If là mệnh đề phụ thuộc → câu phức.","Find the dependent clause."],
+["w",1,"Simple sentence","Classify: <i>They are going to hold a party to celebrate their wedding anniversary.</i>",SCC,"S","Chỉ có một mệnh đề (to celebrate… là cụm to-V) → câu đơn.","Count the clauses with their own subject."],
+["w",2,"Compound sentence","Classify: <i>Tom and Linda like carnivals, but they never join them.</i>",SCC,"C","Sau <b>but</b> có chủ ngữ mới “they” → hai mệnh đề độc lập → câu ghép.","Count the subjects."],
+["q",1,"Coordinating: so","Mary wants to go abroad, ____ she saves money from now.",CO,"so","Kết quả của ý định đi nước ngoài → <b>so</b>.","The second clause shows a result."],
+["q",1,"Coordinating: but","They used to be friends, ____ now they are not.",CO,"but","“used to” và “now” đối lập → <b>but</b>.","Contrast."],
+["q",1,"Coordinating: or","You can take a seat, ____ you can go around and take a look.",CO,"or","Hai lựa chọn → <b>or</b>.","It's up to you."],
+["q",1,"Coordinating: so","My brother doesn't socialize much, ____ he has very few friends.",CO,"so","Ít giao tiếp nên ít bạn: kết quả → <b>so</b>.","Result."],
+["q",1,"Coordinating: but","A new camera is all I want now, ____ I don't have enough money.",CO,"but","Muốn nhưng không đủ tiền: đối lập → <b>but</b>.","Contrast."],
+["q",1,"Coordinating: or","Should I stay in and watch TV ____ should I hang out with friends today?",CO,"or","Lựa chọn → <b>or</b>.","A choice."],
+["q",1,"Coordinating: so","Peter doesn't feel well today, ____ he is absent from school.",CO,"so","Không khỏe nên nghỉ học: kết quả → <b>so</b>.","Result."],
+["q",2,"Coordinating: but","They thought they won the match, ____ it turned out that they were losers.",CO,"but","Nghĩ thắng nhưng hóa ra thua → <b>but</b>.","Contrast."],
+["q",2,"Coordinating","Which conjunction shows a RESULT?",CO,"so","<b>so</b> nói về kết quả; and: bổ sung; or: lựa chọn; but: đối lập.","Cause → result."],
+["q",2,"Coordinating","Which conjunction shows a CONTRAST?",CO,"but","<b>but</b> nối hai ý trái ngược nhau.","Opposite ideas."],
+["q",2,"Subordinating: as long as","I will lend you my book ____ you promise to keep it clean.",["as long as","unless","although","before"],"as long as","<b>as long as</b> = miễn là (điều kiện).","A condition."],
+["q",1,"Subordinating: when","____ I came, Jim was having dinner.",["When","Unless","Although","Until"],"When","<b>When</b> = khi.","A time."],
+["q",2,"Subordinating: after","____ I had eaten my breakfast, I went to school by bus.",["Before","After","Unless","Although"],"After","Ăn sáng xong rồi mới đi học → <b>After</b>.","Which happened first?"],
+["q",2,"Subordinating: since","They didn't come to the party ____ they were too busy.",["since","as soon as","unless","until"],"since","<b>since</b> ở đây = bởi vì.","A reason."],
+["q",2,"Subordinating: until","I didn't realize her new hair ____ she told me.",["until","if","because","while"],"until","Not … until = mãi cho đến khi.","Not … until."],
+["q",2,"Subordinating: even though","I like her ____ she's annoying sometimes.",["even though","as long as","unless","once"],"even though","Thích cô ấy dù đôi khi cô ấy phiền → <b>even though</b> (mặc dù).","Contrast."],
+["q",2,"Subordinating: whereas","My brother is a bookworm, ____ I don't like reading books.",["whereas","unless","since","before"],"whereas","<b>whereas</b> = trong khi đó (đối lập).","Two people, two different habits."],
+["q",2,"Subordinating: before","In some cultures, you have to pray ____ you eat.",["before","unless","although","whereas"],"before","Cầu nguyện trước khi ăn → <b>before</b>.","Time order."],
+["q",2,"Subordinating: since","We are very familiar with this area ____ we moved here 15 years ago.",["since","while","if","unless"],"since","Mốc thời gian trong quá khứ → <b>since</b>.","Starting point."],
+["q",3,"Subordinating: unless","You shouldn't skip classes ____ you really have to.",["unless","if","when","once"],"unless","Đừng trốn học trừ phi thật sự bắt buộc → <b>unless</b>.","Unless = if … not."],
+["q",3,"Subordinating: whereas","Choose the best word: Ann loves festivals, ____ her sister prefers staying at home.",["whereas","because","unless","until"],"whereas","Hai người đối lập nhau → <b>whereas</b>.","Compare two people."],
+["q",2,"Subordinating: meaning","<b>Even though</b> có nghĩa là gì?",["Mặc dù","Phòng khi","Trừ phi","Ngay khi"],"Mặc dù","even though = mặc dù (although, though).","Contrast."],
+["q",2,"Subordinating: meaning","<b>In case</b> có nghĩa là gì?",["Phòng khi","Mặc dù","Cho đến khi","Trong khi đó"],"Phòng khi","in case = phòng khi, ví dụ: bring a raincoat in case it rains.","Be prepared."],
+["q",3,"Subordinating: meaning","<b>As soon as</b> khác <b>as long as</b> ở chỗ nào?",["as soon as = ngay khi; as long as = miễn là","as soon as = miễn là; as long as = ngay khi","Hai cụm có nghĩa giống nhau","Cả hai đều = mặc dù"],"as soon as = ngay khi; as long as = miễn là","as soon as chỉ thời điểm; as long as chỉ điều kiện.","Time vs condition."],
+["b",2,"Complex sentence","Arrange the words:",["Because","it was raining,","we","stayed","at home."],"Because it was raining, we stayed at home.","Mệnh đề phụ thuộc đứng trước có dấu phẩy.","Start with the conjunction."],
+["b",2,"Compound sentence","Arrange the words:",["You can","take a seat,","or","you can","go around."],"You can take a seat, or you can go around.","Lựa chọn → <b>, or</b>.","A choice."],
+["b",2,"Complex sentence","Arrange the words:",["I will","call you","as soon as","I arrive","there."],"I will call you as soon as I arrive there.","Mệnh đề phụ thuộc đứng sau → không cần dấu phẩy.","Independent clause first."],
+["b",2,"Compound sentence","Arrange the words:",["Peter","doesn't feel well today,","so","he is","absent from school."],"Peter doesn't feel well today, so he is absent from school.","Kết quả → <b>, so</b>.","Result."],
+["b",3,"Complex sentence","Arrange the words:",["Before","you go to bed,","you should","brush","your teeth."],"Before you go to bed, you should brush your teeth.","Mệnh đề Before đứng đầu → có dấu phẩy.","Start with before."],
+["b",3,"Complex sentence","Arrange the words:",["We","won't go camping","unless","the weather","is fine."],"We won't go camping unless the weather is fine.","<b>unless</b> = trừ phi.","Independent clause first."],
+["m",2,"Error correction","Choose the correct sentence.",["Because she was tired, she went to bed early.","Because she was tired, so she went to bed early.","Because she was tired but she went to bed early.","She was tired because, she went to bed early."],"Because she was tired, she went to bed early.","Không dùng because và so cùng một câu.","Remove the extra conjunction."],
+["m",2,"Error correction","Choose the correct sentence.",["When I arrive, I will call you.","When I will arrive, I will call you.","When I arrived, I will call you.","When arrive I, I will call you."],"When I arrive, I will call you.","Sau when chỉ tương lai dùng hiện tại đơn (I arrive).","Present simple after when."],
+["m",3,"Error correction","Choose the best correction: <i>Many people go out, however others want to stay in.</i>",["Change “however” to “but”","Change “however” to “so”","Change “others” to “other”","No correction needed"],"Change “however” to “but”","Câu ghép cần liên từ kết hợp <b>but</b> (however cần dấu chấm phẩy).","Use a coordinating conjunction."],
+["m",3,"Error correction","Choose the best correction: <i>Moon cakes are important as if sharing them is a hallmark tradition.</i>",["Change “as if” to “because”","Change “as if” to “unless”","Change “important” to “importance”","No correction needed"],"Change “as if” to “because”","Nghĩa là “vì”: dùng <b>because</b> (as if = như thể là).","The clause gives a reason."],
+["m",3,"Error correction","Choose the best correction: <i>While the festival is called “Children's festival”, it is enjoyed by people of all ages.</i>",["Change “While” to “Although”","Change “While” to “Unless”","Delete the comma","Change “it” to “they”"],"Change “While” to “Although”","Hai ý đối lập (gọi là lễ hội thiếu nhi nhưng ai cũng thích) → <b>Although</b>.","Contrast, not time."],
+["w",1,"Vocabulary","🎋 Local craftsmen can make many things from ____.",["bamboo","incense","carnival","archway"],"bamboo","bamboo = cây tre.","A tall green plant."],
+["w",1,"Vocabulary","💃 Will you join in the ____ tomorrow?",["carnival","fortune","incense","bamboo"],"carnival","carnival = lễ hội (hóa trang).","A festival with costumes."],
+["w",1,"Vocabulary","🥥 Từ <b>coconut</b> nghĩa là gì?",["quả dừa","cây tre","cốm","vận may"],"quả dừa","coconut /ˈkəʊkənʌt/ = quả dừa. Kẹo dừa là đặc sản Bến Tre.","Ben Tre candy."],
+["w",2,"Vocabulary","🍀 Từ <b>fortune</b> nghĩa là gì?",["vận may","kẻ xâm lược","đô vật","mái vòm"],"vận may","fortune /ˈfɔːtʃuːn/ = vận may.","Good luck."],
+["w",2,"Vocabulary","They were about to fight against the ____. (Đã sửa lỗi ngữ pháp trong PDF.)",["invaders","wrestlers","lanterns","heroes"],"invaders","invader = kẻ xâm lược. Câu đúng: They were about to rebel against the invaders.","Enemies who attack."],
+["w",1,"Vocabulary","Từ <b>green rice flake</b> (cốm) là gì?",["A special dish of Vietnam","A kind of lantern","A national hero","A wrestling match"],"A special dish of Vietnam","green rice flake = cốm, món ăn đặc biệt của Việt Nam.","It's food."],
+["m",2,"Reading: Huong Pagoda","Along with Huong Pagoda Festival, which two festivals are among the greatest Buddhist festivals in northern Vietnam?",["Bai Dinh and Yen Tu","Nghinh Ong and Bai Dinh","Yen Tu and Nghinh Ong","Tet and Mid-Autumn"],"Bai Dinh and Yen Tu","Bài đọc: Bai Dinh, Yen Tu và Huong Pagoda.","First sentence."],
+["m",2,"Reading: Huong Pagoda","When is the official opening day of the Huong Pagoda Festival?",["The 6th day of the first lunar month","The 15th day of the 8th lunar month","November 14","The 1st day of the third month"],"The 6th day of the first lunar month","Ngày khai hội chính thức là mùng 6 tháng Giêng âm lịch.","Official opening day."],
+["m",2,"Reading: Huong Pagoda","What happens during the ceremony at Huong Pagoda?",["Monks and Buddhists offer incense, flowers, candles and fruits","Wrestlers compete","People float lanterns","Visitors wear costumes"],"Monks and Buddhists offer incense, flowers, candles and fruits","Trong lễ, sư và Phật tử dâng hương, hoa, nến và trái cây; hai nhà sư biểu diễn múa.","The Zen ceremony."],
+["m",2,"Reading: Huong Pagoda","Which is an entertaining activity at Huong Pagoda Festival?",["Boat cruise along Yen Stream","Wrestling","Floating lanterns","Eating green rice flake"],"Boat cruise along Yen Stream","Du khách đi thuyền trên suối Yến, leo núi và khám phá hang động.","Scenery."],
+["m",3,"Reading: Nghinh Ong","The Nghinh Ong Festival opened in Kien Hai district on ____.",["November 14","January 6","August 15","March 1"],"November 14","Bài đọc: lễ hội khai mạc vào ngày 14 tháng 11 (Kiên Giang), thuộc Năm Du lịch Quốc gia 2016.","Read the first lines."],
+["m",3,"Reading: Nghinh Ong","The festival ____ to enriching the country's culture.",["contributes","helps","makes","continues"],"contributes","contribute to + V-ing = góp phần vào.","Collocation with “to”."]
+];
+const LV={1:10,2:20,3:30},NAMES={w:"Grammar Warm-up",q:"Conjunction Quest",b:"Sentence Builder",m:"Festival Master"};
+let S=null,timer=null,sound=true,ctx=null;
+
+function $(i){return document.getElementById(i)}
+function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id===id));window.scrollTo(0,0)}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function toggleSound(){sound=!sound;$("snd").textContent=sound?"🔊 Âm thanh: Bật":"🔇 Âm thanh: Tắt"}
+function beep(ok){if(!sound)return;try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=ok?660:200;g.gain.value=.08;o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+(ok?.25:.35))}catch(e){}}
+function clearTimer(){if(timer){clearInterval(timer);timer=null}}
+
+function startGame(list){
+  clearTimer();
+  const mode=$("mode").value,n=parseInt($("num").value,10);
+  let pool=list||Q.filter(q=>mode==="all"||q[0]===mode);
+  if(!list)pool=shuffle(pool).slice(0,n);
+  S={list:pool,i:0,score:0,streak:0,best:0,hints:0,log:[],t0:Date.now(),limit:parseInt($("tm").value,10),done:false,hint:false,sel:null,order:[],name:$("nm").value.trim()};
+  show("play");showQ();
+}
+function showQ(){
+  clearTimer();
+  const q=S.list[S.i];S.done=false;S.hint=false;S.sel=null;S.order=[];
+  $("pn").textContent=(S.i+1)+"/"+S.list.length;$("ps").textContent=S.score;
+  $("pb").style.width=(S.i/S.list.length*100)+"%";
+  $("ptag").textContent=NAMES[q[0]]+" • "+q[2]+" • "+["","Dễ","Trung bình","Khó"][q[1]];
+  $("pq").innerHTML=q[3];
+  $("fb").className="";$("fb").style.display="none";$("hintbox").style.display="none";
+  $("bOk").style.display="";$("bHint").style.display="";$("bSkip").style.display="";$("bNext").style.display="none";
+  $("bOk").disabled=false;$("bHint").disabled=false;$("bSkip").disabled=false;
+  drawAnswer(q);startTimer();
+}
+function drawAnswer(q){
+  const box=$("pa");box.innerHTML="";
+  if(q[0]==="b"){
+    const ans=document.createElement("div"),pool=document.createElement("div");
+    ans.className="chips";pool.className="chips";ans.id="ans";pool.id="pool";
+    ans.setAttribute("aria-label","Câu của bạn");
+    S.pool=shuffle(q[4].map((w,i)=>({w,i})));
+    box.append(ans,pool);drawChips();
+  }else{
+    const o=document.createElement("div");o.className="opts";
+    const opts=(q[4][0]==="TRUE"||q[4][0]==="S")?q[4]:shuffle(q[4]);
+    opts.forEach(t=>{const b=document.createElement("button");b.className="opt";b.textContent=t;
+      b.onclick=()=>{if(S.done)return;S.sel=t;[...o.children].forEach(c=>c.classList.toggle("sel",c===b))};o.appendChild(b)});
+    box.appendChild(o);
+  }
+}
+function drawChips(){
+  const a=$("ans"),p=$("pool");a.innerHTML="";p.innerHTML="";
+  S.order.forEach((c,k)=>{const b=document.createElement("button");b.className="chip";b.textContent=c.w;b.onclick=()=>{if(S.done)return;S.order.splice(k,1);S.pool.push(c);drawChips()};a.appendChild(b)});
+  S.pool.forEach((c,k)=>{const b=document.createElement("button");b.className="chip";b.textContent=c.w;b.onclick=()=>{if(S.done)return;S.pool.splice(k,1);S.order.push(c);drawChips()};p.appendChild(b)});
+}
+function startTimer(){
+  const t=$("pt");
+  if(!S.limit){t.textContent="⏱ ∞";return}
+  S.left=S.limit;t.textContent="⏱ "+S.left+"s";
+  timer=setInterval(()=>{S.left--;t.textContent="⏱ "+Math.max(S.left,0)+"s";if(S.left<=0){clearTimer();finish("time")}},1000);
+}
+function hint(){
+  if(S.done)return;const q=S.list[S.i];
+  if(!S.hint){S.hint=true;S.hints++}
+  const h=$("hintbox");h.style.display="block";h.textContent="💡 "+q[7]+"  (điểm câu này giảm 50%)";
+}
+function skip(){if(!S.done)finish("skip")}
+function submit(){
+  if(S.done)return;const q=S.list[S.i];
+  let given=q[0]==="b"?S.order.map(c=>c.w).join(" "):S.sel;
+  if(!given){const f=$("fb");f.className="no";f.style.display="block";f.textContent="Hãy chọn đáp án (hoặc xếp từ) trước khi xác nhận.";return}
+  finish(norm(given)===norm(q[5])?"ok":"bad",given);
+}
+function norm(s){return String(s).replace(/\s+/g," ").trim().toLowerCase()}
+function finish(res,given){
+  if(S.done)return;S.done=true;clearTimer();
+  const q=S.list[S.i];let pts=0,bonus=0;
+  if(res==="ok"){
+    pts=LV[q[1]]*(S.hint?.5:1);S.streak++;S.best=Math.max(S.best,S.streak);
+    if(S.streak===5)bonus=20;if(S.streak===10)bonus=50;
+  }else S.streak=0;
+  S.score+=pts+bonus;$("ps").textContent=S.score;
+  S.log.push({q,res,given:given||"",pts:pts+bonus});
+  const f=$("fb");f.style.display="";
+  f.className=res==="ok"?"ok":"no";
+  const title=res==="ok"?"✓ Excellent! +"+pts+(bonus?" (+"+bonus+" thưởng chuỗi)":""):res==="time"?"⏰ Hết giờ!":res==="skip"?"Đã bỏ qua.":"✗ Try Again!";
+  f.innerHTML="<b>"+title+"</b><br>Đáp án: <b>"+q[5]+"</b><br>"+q[6];
+  if(q[0]!=="b")[...$("pa").querySelectorAll(".opt")].forEach(b=>{if(norm(b.textContent)===norm(q[5]))b.classList.add("good");else if(b.classList.contains("sel"))b.classList.add("bad");b.disabled=true});
+  beep(res==="ok");
+  ["bOk","bHint","bSkip"].forEach(i=>$(i).style.display="none");$("bNext").style.display="";
+  $("bNext").textContent=S.i===S.list.length-1?"Xem kết quả":"Câu tiếp theo";
+}
+function next(){if(!S.done)return;if(S.i>=S.list.length-1)endGame();else{S.i++;showQ()}}
+function quit(){clearTimer();S=null;show("menu")}
+function endGame(){
+  clearTimer();
+  const ok=S.log.filter(l=>l.res==="ok").length,bad=S.log.filter(l=>l.res==="bad").length,un=S.list.length-ok-bad;
+  const full=S.list.length&&S.log.length===S.list.length;
+  if(full)S.score+=30;
+  const pct=Math.round(ok/S.list.length*100),sec=Math.round((Date.now()-S.t0)/1000);
+  let r=["Try Again","Đừng bỏ cuộc! Hãy luyện tập thêm để tiến bộ."];
+  if(pct>=90)r=["Grammar Master","Congratulations! You are a Grammar Master! Chúc mừng! Bạn đã chinh phục Unit 5!"];
+  else if(pct>=80)r=["Excellent","Excellent work! Bạn làm rất tốt!"];
+  else if(pct>=65)r=["Good Job","Good job! Cố thêm chút nữa nhé!"];
+  else if(pct>=50)r=["Keep Practicing","Keep practicing! You are getting better. Hãy luyện thêm."];
+  $("eh").textContent=r[0];$("en").textContent=(S.name?S.name+" – ":"")+"FESTIVAL GRAMMAR CHALLENGE • "+S.score+" điểm";$("em").textContent=r[1];
+  $("es").innerHTML=[["Tổng số câu",S.list.length],["Đúng",ok],["Sai",bad],["Chưa trả lời",un],["Tỷ lệ chính xác",pct+"%"],["Thời gian",Math.floor(sec/60)+"p "+sec%60+"s"],["Lần dùng gợi ý",S.hints],["Chuỗi đúng dài nhất",S.best]].map(x=>"<div>"+x[0]+": <b>"+x[1]+"</b></div>").join("");
+  show("end");
+}
+function review(kind){
+  const items=S.log.filter(l=>kind==="all"||l.res!=="ok");
+  $("rh").textContent=kind==="all"?"VIEW ANSWERS":"REVIEW WRONG ANSWERS";
+  $("rp").style.display=kind==="all"||!items.length?"none":"";
+  $("rl").innerHTML=items.length?items.map(l=>"<div class='card'><div class='tag'>"+l.q[2]+"</div><div>"+l.q[3]+"</div><div class='rv'>Bạn chọn: "+(l.given||"(chưa trả lời)")+"<br>Đáp án: <b>"+l.q[5]+"</b><br>"+l.q[6]+"</div></div>").join(""):"<div class='card'>🎉 Bạn không có câu sai nào!</div>";
+  S.review=items.map(l=>l.q);show("rev");
+}
+function practiceWrong(){
+  if(!S||!S.review||!S.review.length)return;
+  const keep={name:S.name,limit:S.limit,list:S.review.slice()};
+  S={list:keep.list,i:0,score:0,streak:0,best:0,hints:0,log:[],t0:Date.now(),limit:keep.limit,done:false,hint:false,sel:null,order:[],name:keep.name};
+  show("play");showQ();
+}
+</script></body></html>
